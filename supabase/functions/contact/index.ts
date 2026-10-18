@@ -27,6 +27,24 @@ const json = (body: unknown, status: number, h: Record<string, string>) =>
 const clean = (v: unknown, max: number) => String(v ?? "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "").trim().slice(0, max);
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const SITE = env("SITE_URL", "https://domotty.it").replace(/\/$/, "");
+
+function ackEmail(nome: string, tipo: string) {
+  const first = nome.split(/\s+/)[0] || "";
+  const text = `Ciao ${first},\n\ngrazie per averci scritto. Abbiamo ricevuto la tua richiesta «${tipo}» e ti risponderemo al più presto.\n\nSe vuoi aggiungere qualcosa, rispondi pure a questa email.\n\nIl team Domotty\n\nDomotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA)\nInformativa privacy: ${SITE}/privacy.html`;
+  const html = `<div style="background:#0B1A33;padding:36px 16px;font-family:Arial,sans-serif">
+  <div style="max-width:520px;margin:0 auto;background:#10223F;border-radius:20px;padding:32px;color:#C3CEE0">
+    <p style="font-size:13px;letter-spacing:4px;color:#F7842A;font-weight:bold;margin:0 0 18px">DOMOTTY</p>
+    <h1 style="color:#F5F7FB;font-size:26px;margin:0 0 14px">Richiesta ricevuta!</h1>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 14px">Ciao ${esc(first)}, grazie per averci scritto. Abbiamo ricevuto la tua richiesta e ti risponderemo al più presto.</p>
+    <p style="margin:0 0 20px"><span style="display:inline-block;background:#F7842A;color:#0B1A33;font-weight:bold;font-size:13px;padding:8px 14px;border-radius:999px">${esc(tipo)}</span></p>
+    <p style="font-size:14px;line-height:1.6;margin:0;color:#93A3BE">Se vuoi aggiungere qualcosa, rispondi pure a questa email.</p>
+    <p style="font-size:15px;margin:22px 0 0;color:#F5F7FB">Il team Domotty</p>
+  </div>
+  <p style="max-width:520px;margin:16px auto 0;font-size:12px;color:#93A3BE;text-align:center">Domotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA) · <a href="${SITE}/privacy.html" style="color:#F7842A">Informativa privacy</a></p>
+</div>`;
+  return { text, html };
+}
 
 Deno.serve(async (req) => {
   const h = cors(req.headers.get("origin"));
@@ -85,6 +103,14 @@ Deno.serve(async (req) => {
       subject: `[Sito] ${data.tipo} · ${data.nome}`, text, html: htmlBody,
     });
     await db.from("contact_requests").update({ email_sent: true }).eq("id", row.id);
+
+    // Conferma di ricezione a chi ha scritto. Non ripetiamo il messaggio inviato,
+    // così il modulo non può essere usato per spedire testi a indirizzi altrui.
+    const ack = ackEmail(data.nome.slice(0, 60), data.tipo);
+    await tx.sendMail({
+      from: env("MAIL_FROM"), to: data.email, replyTo: env("MAIL_TO", "assistenza@domotty.it"),
+      subject: "Abbiamo ricevuto la tua richiesta · Domotty", text: ack.text, html: ack.html,
+    });
   } catch (e) {
     // La richiesta è comunque salvata nel database: la vedrai nel pannello admin.
     console.error("smtp", e);
