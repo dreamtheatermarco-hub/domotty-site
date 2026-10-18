@@ -98,3 +98,17 @@ html.light body{background:#FFFFFF}
 .state p{font-size:18px}
 .spin{width:44px;height:44px;border-radius:50%;border:3px solid var(--b2);border-top-color:#F7842A;animation:sp 0.9s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+@media (max-width:620px){
+  .nav{background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none}
+  .nav-in{flex-wrap:nowrap;padding:10px 16px}
+  .nav-r{flex-wrap:nowrap;gap:6px}
+  .nav-r a.btn[href$=".html"]{display:none}
+  .nav-r .btn{min-height:40px;padding:0 14px;font-size:13px}
+  .theme{width:72px;height:40px}
+  .theme .knob{width:30px;height:30px}
+  .light .theme .knob{transform:translateX(32px)}
+  .brand svg{width:30px;height:30px}
+  .hero h1{font-size:52px}
+  .lsec h2{font-size:24px}
+}
+@media (max-width:400px){.brand-word{display:none}}

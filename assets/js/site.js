@@ -12,7 +12,51 @@
   var cfg = window.DOMOTTY_CONFIG || {};
   var fnUrl = function (name) { return String(cfg.supabaseUrl || '').replace(/\/$/, '') + '/functions/v1/' + name; };
 
-  /* ---------- scroll-driven animations ---------- */
+  /* ---------- mobile lite ---------- */
+  var lite = !!(window.matchMedia && window.matchMedia('(max-width: 900px)').matches);
+  if (lite) {
+    root.classList.add('m-lite');
+    var sel = '.label, .h2, .man-text, .hero ~ * h2, .dleft p, .dstep, .house, .shot, .card, .sec, .cl, .mode, .schema-box, .ninety-card, .ninety-wrap h2, .step, .tcard, .nl, .close p, .rv';
+    var items = Array.prototype.slice.call(document.querySelectorAll(sel)).filter(function (el) { return !el.closest('.hero'); });
+    var counter = document.querySelector('[data-count]');
+    var stage = document.querySelector('.dstage');
+    function runCounter() {
+      if (!counter || counter._done) return;
+      counter._done = true;
+      var t0 = null;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var q = Math.min(1, (ts - t0) / 1800);
+        q = 1 - Math.pow(1 - q, 3);
+        counter.style.setProperty('--n', String(Math.round(q * 90)));
+        counter.style.setProperty('--m', String(Math.round(100 - q * 90)));
+        if (q < 1) requestAnimationFrame(step);
+      }
+      counter.style.setProperty('--n', '0'); counter.style.setProperty('--m', '100');
+      requestAnimationFrame(step);
+    }
+    if (reduce || !('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('rvl', 'in'); });
+      if (stage) stage.classList.add('built');
+    } else {
+      items.forEach(function (el) { el.classList.add('rvl'); });
+      if (counter) counter.style.setProperty('--n', '0'), counter.style.setProperty('--m', '100');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var el = en.target;
+          if (el === stage) { el.classList.add('built'); io.unobserve(el); return; }
+          if (el.classList.contains('ninety-card')) runCounter();
+          el.classList.add('in');
+          io.unobserve(el);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+      if (stage) io.observe(stage);
+    }
+  }
+
+  /* ---------- scroll-driven animations (desktop) ---------- */
   var scEls = Array.prototype.slice.call(document.querySelectorAll('[data-sc]'));
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   var raf = 0;
@@ -50,10 +94,12 @@
     }
   }
   function req() { if (!raf) raf = requestAnimationFrame(update); }
-  window.addEventListener('scroll', req, { passive: true });
-  window.addEventListener('resize', req);
-  window.addEventListener('load', req);
-  update();
+  if (!lite) {
+    window.addEventListener('scroll', req, { passive: true });
+    window.addEventListener('resize', req);
+    window.addEventListener('load', req);
+    update();
+  }
 
   /* ---------- theme ---------- */
   var toggle = document.getElementById('theme-toggle');

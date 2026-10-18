@@ -396,3 +396,98 @@ body.no-scroll{overflow:hidden}
 .fld input:invalid:not(:placeholder-shown){border-color:#FF8A7A}
 :focus-visible{outline:2px solid var(--or);outline-offset:2px}
 @media (max-width:760px){.nav-links a{display:none}.nav .btn{padding:0 16px}}
+
+/* ================= MOBILE LITE =================
+   Su schermi fino a 900px il sito non usa più le animazioni legate allo scorrimento
+   (pesanti per i telefoni): ogni blocco compare una volta con una dissolvenza,
+   la casa si costruisce da sola quando entra nello schermo. */
+body{overflow-x:hidden}
+section[id]{scroll-margin-top:76px}
+@property --hb{syntax:'<number>';inherits:true;initial-value:0}
+.m-lite [data-sc]{--p:1 !important}
+.m-lite .bgfx,.m-lite .nav::after,.m-lite .phone,.m-lite .scroll-ind{display:none !important}
+.m-lite .nav,.m-lite .cookie,.m-lite .chip{-webkit-backdrop-filter:none;backdrop-filter:none}
+.m-lite .nav{background:var(--bg);box-shadow:0 1px 0 var(--b1)}
+.m-lite .nav-in{flex-wrap:nowrap;padding:10px 16px}
+.m-lite .nav-links{flex-wrap:nowrap}
+.m-lite .cookie{padding:14px 16px;border-radius:18px}
+.m-lite .cookie p{font-size:12.5px;line-height:1.5}
+.m-lite .cookie p:first-child{font-size:13.5px;margin-bottom:2px !important}
+.m-lite .ck-row{margin-top:10px;gap:8px}
+.m-lite .ck-row .btn{min-height:42px !important;font-size:13.5px !important;padding:0 10px !important}
+.m-lite .split .w{filter:none;transform:none;opacity:1}
+.m-lite .hero{min-height:100svh;min-height:100vh}
+@supports (min-height:100svh){.m-lite .hero{min-height:100svh}}
+.m-lite .hero-stage{transform:none;opacity:1;filter:none;padding:40px 4px 80px}
+.m-lite .hero-h{filter:none}
+.m-lite .pinwrap{height:auto !important}
+.m-lite .pin{position:relative;top:0;min-height:0;padding:84px 0;display:block}
+.m-lite .card{position:relative;top:0;transform:none;filter:none;min-height:0}
+.m-lite .stack{gap:24px;padding-bottom:60px}
+.m-lite .ill{transform:none;opacity:1}
+.m-lite .cl{min-height:0}
+.m-lite .cl .big{transform:none;filter:none;opacity:1}
+.m-lite .cl .tx{opacity:1}
+.m-lite .acro{clip-path:none;white-space:normal}
+.m-lite .shot,.m-lite .sec,.m-lite .tcard,.m-lite .mode,.m-lite .node{transform:none}
+.m-lite .shot{margin-top:0 !important}
+.m-lite .shot-img{clip-path:none}
+.m-lite .shot-img svg,.m-lite .pxA,.m-lite .pxB,.m-lite .pxC,.m-lite .pxD{transform:none}
+.m-lite .ninety-card{transform:none;opacity:1;margin-top:28px}
+.m-lite .house,.m-lite .house *{animation:none !important}
+/* la casa si costruisce in 4 secondi quando appare */
+.m-lite .dstage{--p:var(--hb)}
+.m-lite .dstage.built{--hb:1;transition:--hb 4.2s cubic-bezier(.45,0,.25,1)}
+.m-lite .house{transform:none}
+/* comparsa dei blocchi */
+.m-lite .rvl{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.m-lite .rvl.in{opacity:1;transform:none}
+/* misure per telefoni piccoli (iPhone SE, 375px) */
+@media (max-width:420px){
+  .m-lite .hero-h{font-size:40px}
+  .m-lite .word{font-size:30px;margin-top:18px}
+  .m-lite .claim{font-size:10.5px;letter-spacing:.08em !important;text-align:center}
+  .m-lite .hero-p{font-size:16px}
+  .m-lite .hero-cta .btn{width:100%}
+  .m-lite .h2{font-size:34px}
+  .m-lite .man-text{font-size:28px}
+  .m-lite .card h3{font-size:28px}
+  .m-lite .dstep h3{font-size:24px}
+  .m-lite .num{font-size:96px}
+  .m-lite .cl .big{font-size:84px}
+  .m-lite .close h2{font-size:46px}
+  .m-lite .ninety-card{padding:24px;gap:28px}
+  .m-lite .card{padding:22px;gap:26px}
+  .m-lite .nl{padding:22px}
+  .m-lite .dialog{padding:24px 18px;border-radius:24px;max-height:92vh}
+  .m-lite .nav .btn{min-height:40px;padding:0 14px;font-size:13px}
+  .m-lite .brand-word{font-size:14px;letter-spacing:.2em}
+  .m-lite .brand svg{width:30px;height:30px}
+  .m-lite .theme{width:72px;height:40px}
+  .m-lite .theme .knob{width:30px;height:30px}
+  .m-lite.light .theme .knob{transform:translateX(32px)}
+  .m-lite .schema-box{max-width:340px;margin:0 auto}
+  .m-lite .node{font-size:11px;padding:6px 10px}
+  .m-lite .tbl{font-size:12px}
+  .m-lite .tbl th,.m-lite .tbl td{padding:10px 10px}
+}
+@supports (max-height:100dvh){.m-lite .dialog{max-height:92dvh}}
+@media (max-width:400px){.m-lite .brand-word{display:none}}
+/* rifiniture mobile */
+.m-lite .hero-stage{padding:32px 16px 72px}
+.m-lite .dgrid{flex-direction:column;align-items:stretch;gap:22px}
+.m-lite .dleft{display:contents}
+.m-lite .dleft > .label{order:1}
+.m-lite .dleft > .h2{order:2}
+.m-lite .dright{order:3;flex:none;width:100%;margin:6px 0 10px}
+.m-lite .dleft > .steps-box{order:4}
+.m-lite .dleft > .pf{order:5}
+.m-lite .acro{white-space:normal !important;font-size:12.5px !important;line-height:1.6}
+.m-lite .schema-box{width:82%;max-width:340px;margin:0 auto}
+.m-lite .node{white-space:nowrap}
+.m-lite .nl-row{flex-direction:column;align-items:stretch}
+.m-lite .nl-row .inp{flex:none;width:100%;min-width:0}
+.m-lite .nl-row .btn{width:100%}
+.m-lite .nl-f,.m-lite .nl-l{flex:1 1 100%}
+.m-lite .node[style*="left: 84%"]{left:74% !important}
+.m-lite .node[style*="left: 16%"]{left:26% !important}
