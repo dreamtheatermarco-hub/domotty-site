@@ -1,0 +1,9 @@
+project_id = "domotty-site"
+
+# Le funzioni sono chiamate dal sito pubblico senza login:
+# la verifica JWT è disattivata e i controlli sono fatti nel codice.
+[functions.contact]
+verify_jwt = false
+
+[functions.newsletter]
+verify_jwt = false

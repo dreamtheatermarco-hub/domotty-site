@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newsletter — Domotty</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B1A33">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/legal.css">
+</head>
+<body>
+<div class="lp">
+<script>try{if(localStorage.getItem('domotty-theme')==='light'){document.currentScript.parentNode.classList.add('light');document.documentElement.classList.add('light')}}catch(e){}</script>
+  <header class="nav">
+    <div class="nav-in">
+      <a class="brand" href="./" aria-label="Domotty, torna alla home">
+        <svg width="34" height="34" viewBox="0 0 120 120" aria-hidden="true"><path d="M22 58 L60 22 L98 58 V100 Q98 106 92 106 H28 Q22 106 22 100 Z" fill="none" stroke="#F7842A" stroke-width="10" stroke-linejoin="round"></path><path class="ld" fill-rule="evenodd" d="M47 48 H60 A22 22 0 0 1 60 92 H47 Q43 92 43 88 V52 Q43 48 47 48 Z M53 58 V82 H59 A12 12 0 0 0 59 58 Z"></path></svg>
+        <span class="brand-word">DOMOTTY</span>
+      </a>
+      <div class="nav-r"><a class="btn" href="./">Torna al sito</a></div>
+    </div>
+  </header>
+  <section class="hero" style="min-height: 70vh">
+    <div class="halo" style="width: 900px; height: 900px; right: -300px; top: -300px"></div>
+    <div class="wrap">
+      <div class="state" id="state">
+        <span class="label">Newsletter Domotty</span>
+        <div class="spin" id="spin" aria-hidden="true"></div>
+        <h1 id="title">Un attimo…</h1>
+        <p id="text" role="status" aria-live="polite">Stiamo elaborando la tua richiesta.</p>
+        <a class="btn" href="./" id="back" hidden>Vai al sito</a>
+      </div>
+    </div>
+  </section>
+  <footer class="foot">© 2026 Domotty S.r.l. · P.IVA 04208000929 · <a href="privacy.html">Privacy policy</a> · <a href="cookie.html">Cookie policy</a></footer>
+</div>
+<script src="assets/js/config.js"></script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var action = q.get('azione') === 'disiscrivi' ? 'unsubscribe' : 'confirm';
+  var token = q.get('t') || '';
+  var $ = function (id) { return document.getElementById(id); };
+  function done(title, text) {
+    $('spin').hidden = true; $('title').textContent = title; $('text').textContent = text; $('back').hidden = false;
+  }
+  var base = String((window.DOMOTTY_CONFIG || {}).supabaseUrl || '').replace(/\/$/, '');
+  if (!/^[A-Za-z0-9-]{20,80}$/.test(token)) { done('Link non valido', 'Il link che hai aperto non è completo. Copialo per intero dall’email e riprova.'); return; }
+  fetch(base + '/functions/v1/newsletter', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: action, token: token })
+  }).then(function (r) { return r.json().then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error); return j; }); })
+    .then(function () {
+      if (action === 'confirm') done('Iscrizione confermata!', 'Grazie: d’ora in poi riceverai la newsletter Domotty. Poche email, solo quando hanno qualcosa da dire.');
+      else done('Disiscrizione completata', 'Non riceverai più la newsletter. Se cambi idea, puoi iscriverti di nuovo dal sito quando vuoi.');
+    })
+    .catch(function () { done('Qualcosa non ha funzionato', 'Il link potrebbe essere scaduto o già usato. Se il problema continua scrivi a privacy@domotty.it.'); });
+})();
+</script>
+</body>
+</html>
