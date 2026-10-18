@@ -208,7 +208,7 @@
   document.addEventListener('click', function (e) {
     var o = e.target.closest && e.target.closest('[data-open]');
     if (o) { e.preventDefault(); openModal(o.getAttribute('data-open')); return; }
-    if (e.target.closest && e.target.closest('[data-close]')) closeModal();
+    if (e.target.closest && e.target.closest('[data-close]') && e.target.closest('#modal')) closeModal();
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !modal.hidden) closeModal();
@@ -249,21 +249,43 @@
   });
 
   /* ---------- newsletter ---------- */
-  var nl = document.getElementById('nl-form');
-  var nlMsg = document.getElementById('nl-msg');
-  if (nl) nl.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var email = String(nl.email.value || '').trim();
-    nlMsg.className = 'nl-msg';
-    if (!emailRe.test(email)) { nlMsg.className = 'nl-msg err'; nlMsg.textContent = 'Controlla l’indirizzo email.'; return; }
-    var btn = nl.querySelector('button');
-    btn.disabled = true;
-    post('newsletter', { action: 'subscribe', email: email, website: nl.website.value || '' }).then(function () {
-      nl.hidden = true;
-      nlMsg.textContent = 'Quasi fatto! Ti abbiamo inviato un’email: clicca il link per confermare l’iscrizione.';
-    }).catch(function () {
-      nlMsg.className = 'nl-msg err';
-      nlMsg.textContent = 'Non siamo riusciti a completare l’iscrizione. Riprova tra poco.';
-    }).then(function () { btn.disabled = false; });
+  Array.prototype.forEach.call(document.querySelectorAll('form.js-nl'), function (nl) {
+    var nlMsg = document.getElementById(nl.getAttribute('data-msg'));
+    nl.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = String(nl.email.value || '').trim();
+      nlMsg.className = 'nl-msg';
+      if (!emailRe.test(email)) { nlMsg.className = 'nl-msg err'; nlMsg.textContent = 'Controlla l\u2019indirizzo email.'; return; }
+      var btn = nl.querySelector('button');
+      btn.disabled = true;
+      post('newsletter', { action: 'subscribe', email: email, website: nl.website.value || '' }).then(function () {
+        nl.hidden = true;
+        nlMsg.textContent = 'Quasi fatto! Ti abbiamo inviato un\u2019email: clicca il link per confermare l\u2019iscrizione.';
+      }).catch(function () {
+        nlMsg.className = 'nl-msg err';
+        nlMsg.textContent = 'Non siamo riusciti a completare l\u2019iscrizione. Riprova tra poco.';
+      }).then(function () { btn.disabled = false; });
+    });
   });
+
+  /* ---------- newsletter popup (barra in alto su mobile) ---------- */
+  var nlModal = document.getElementById('nl-modal');
+  var nlLast = null;
+  function openNl() {
+    nlLast = document.activeElement;
+    nlModal.hidden = false;
+    document.body.classList.add('no-scroll');
+    setTimeout(function () { var i = nlModal.querySelector('input[name="email"]'); if (i && !i.closest('[hidden]')) i.focus(); }, 60);
+  }
+  function closeNl() {
+    nlModal.hidden = true;
+    document.body.classList.remove('no-scroll');
+    if (nlLast && nlLast.focus) nlLast.focus();
+  }
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest) return;
+    if (e.target.closest('[data-nl-open]')) { e.preventDefault(); openNl(); return; }
+    if (e.target.closest('[data-close]') && e.target.closest('#nl-modal')) closeNl();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nlModal && !nlModal.hidden) closeNl(); });
 })();

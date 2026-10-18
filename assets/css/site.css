@@ -491,3 +491,13 @@ section[id]{scroll-margin-top:76px}
 .m-lite .nl-f,.m-lite .nl-l{flex:1 1 100%}
 .m-lite .node[style*="left: 84%"]{left:74% !important}
 .m-lite .node[style*="left: 16%"]{left:26% !important}
+
+/* pulsante newsletter nella barra (solo mobile) */
+.nav-nl{display:none}
+.m-lite .nav-nl{display:inline-flex;min-height:40px;padding:0 13px;font-size:13px;gap:7px;margin-left:6px}
+.m-lite .nav-links{gap:6px}
+.m-lite .nav .btn{margin-left:0}
+.nl-dialog{max-width:480px}
+.nl-dialog .nl-row{flex-wrap:wrap}
+@media (max-width:380px){.m-lite .nav-nl span{display:none}.m-lite .nav-nl{padding:0 11px}}
+.nl-dialog .label{padding-right:52px}
