@@ -493,7 +493,10 @@ section[id]{scroll-margin-top:76px}
 .m-lite .node[style*="left: 16%"]{left:26% !important}
 
 /* pulsante newsletter nella barra (solo mobile) */
-.nav-nl{display:none}
+.nav-nl{display:inline-flex;gap:8px;margin-left:6px}
+.nav .nav-nl{padding:0 18px}
+@media (max-width:1180px){.nav-nl span{display:none}.nav .nav-nl{padding:0 13px}}
+@media (max-width:900px){.nav-nl span{display:inline}}
 .m-lite .nav-nl{display:inline-flex;min-height:40px;padding:0 13px;font-size:13px;gap:7px;margin-left:6px}
 .m-lite .nav-links{gap:6px}
 .m-lite .nav .btn{margin-left:0}
