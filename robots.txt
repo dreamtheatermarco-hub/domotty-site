@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /conferma.html
+Disallow: /snippets/
 Sitemap: https://domotty.it/sitemap.xml

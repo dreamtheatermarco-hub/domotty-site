@@ -137,6 +137,23 @@
     store.set('domotty-theme', light ? 'light' : 'dark');
   });
 
+  /* ---------- torna su ---------- */
+  var totop = document.getElementById('totop');
+  if (totop) {
+    var shown = false, tick = false;
+    var check = function () {
+      tick = false;
+      var on = (window.scrollY || window.pageYOffset) > 700;
+      if (on !== shown) { shown = on; totop.classList.toggle('show', on); }
+    };
+    window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+    totop.addEventListener('click', function () {
+      try { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+      var b = document.querySelector('.brand'); if (b) setTimeout(function () { b.focus({ preventScroll: true }); }, 600);
+    });
+  }
+
   /* ---------- spotlight on cards ---------- */
   Array.prototype.forEach.call(document.querySelectorAll('[data-spot]'), function (g) {
     g.addEventListener('pointermove', function (e) {

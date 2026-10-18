@@ -504,3 +504,47 @@ section[id]{scroll-margin-top:76px}
 .nl-dialog .nl-row{flex-wrap:wrap}
 @media (max-width:380px){.m-lite .nav-nl span{display:none}.m-lite .nav-nl{padding:0 11px}}
 .nl-dialog .label{padding-right:52px}
+
+/* torna su */
+.totop{position:fixed;right:20px;bottom:20px;z-index:80;width:50px;height:50px;border-radius:50%;border:1px solid var(--b2);background:rgba(16,34,63,.9);color:var(--or);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 14px 30px -12px rgba(0,0,0,.7);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1),border-color .25s,background-color .5s}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{border-color:var(--or)}
+.light .totop{background:rgba(255,255,255,.92);box-shadow:0 14px 30px -14px rgba(15,31,61,.35)}
+.m-lite .totop{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(16,34,63,.94);right:14px;bottom:14px}
+.m-lite.light .totop{background:rgba(255,255,255,.96)}
+.m-lite #cookie:not([hidden]) ~ .totop{opacity:0;pointer-events:none}
+/* dicono di noi · in arrivo */
+.soon-wrap{padding:140px 0 20px}
+.soon-box{position:relative;text-align:center;max-width:880px;margin:0 auto;padding:64px 32px 56px;border-radius:36px;border:1px dashed var(--b2);overflow:hidden}
+.soon-box > *{position:relative}
+.soon-box > .soon-glow{position:absolute;inset:-30% -10% auto;height:120%;background:radial-gradient(circle at 50% 20%,rgba(247,132,42,.16),transparent 55%);animation:sglow 6s ease-in-out infinite;pointer-events:none}
+@keyframes sglow{50%{opacity:.45}}
+.soon-q{font-size:150px;line-height:.75;height:74px;font-weight:700;color:transparent;-webkit-text-stroke:2px var(--or);opacity:.55;margin-bottom:10px}
+.soon-p{max-width:600px;margin:22px auto 0;font-size:17px}
+.soon-icons{display:flex;justify-content:center;margin-top:34px}
+.soon-icons span{width:58px;height:58px;border-radius:50%;background:var(--s2);border:3px solid var(--bg);margin-left:-12px;display:flex;align-items:center;justify-content:center;color:var(--or);animation:bob 3.2s ease-in-out var(--d) infinite;box-shadow:0 10px 24px -12px rgba(0,0,0,.5)}
+.soon-icons span:first-child{margin-left:0}
+@keyframes bob{50%{transform:translateY(-8px)}}
+/* footer */
+.site-foot{border-top:1px solid var(--b1);margin-top:120px;padding:64px 0 0;text-align:left;position:relative}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px}
+.fcol{display:flex;flex-direction:column;gap:10px;font-size:14.5px;align-items:flex-start}
+.fcol p{font-size:14.5px;color:var(--t3)}
+.fcol h4{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin:0 0 6px;font-weight:400}
+.fcol a,.flink{color:var(--t2);text-decoration:none;display:inline-flex;gap:10px;align-items:center;min-height:34px;font-size:14.5px}
+.flink{background:none;border:0;padding:0;font-family:inherit;cursor:pointer;text-align:left}
+.fcol a:hover,.flink:hover{color:var(--t1)}
+.fcol a svg,.faddr svg{color:var(--or);flex:0 0 18px}
+.faddr{display:flex;gap:10px;align-items:flex-start;color:var(--t3);line-height:1.55;padding-top:6px}
+.socials{display:flex;gap:10px;margin-top:6px}
+.fcol .socials a{width:44px;height:44px;min-height:44px;border-radius:50%;border:1px solid var(--b2);justify-content:center;color:var(--t1);transition:border-color .25s,color .25s,transform .25s}
+.fcol .socials a svg{color:currentColor}
+.fcol .socials a:hover{border-color:var(--or);color:var(--or);transform:translateY(-2px)}
+.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--b1);margin-top:48px;font-size:13px;color:var(--t3)}
+@media (max-width:760px){.foot-grid{grid-template-columns:minmax(0,1fr);gap:34px}.soon-box{padding:48px 20px 40px;border-radius:28px}.soon-q{font-size:110px;height:56px}.site-foot{margin-top:80px}}
+.site-foot .brand-word{display:inline !important}
+.site-foot .brand svg{flex:0 0 34px;color:inherit}
+.foot-bottom{padding-top:22px;padding-bottom:36px}
+.foot-bottom.wrap{padding-left:32px;padding-right:32px}
+@media (max-width:620px){.foot-bottom.wrap{padding-left:16px;padding-right:16px}}
+.soon-q{font-family:Georgia,'Times New Roman',serif;color:var(--or);-webkit-text-stroke:0;opacity:.9;font-size:150px;font-weight:400}
