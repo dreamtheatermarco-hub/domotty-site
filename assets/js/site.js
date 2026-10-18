@@ -53,6 +53,23 @@
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
       items.forEach(function (el) { io.observe(el); });
       if (stage) io.observe(stage);
+      // Rete di sicurezza: se un browser non notifica l'osservatore, mostra comunque
+      // ciò che è già passato sullo schermo (controllo leggero, al massimo 4 volte al secondo).
+      var pending = false;
+      var sweep = function () {
+        pending = false;
+        var H = window.innerHeight || 700;
+        items.forEach(function (el) {
+          if (el.classList.contains('in')) return;
+          if (el.getBoundingClientRect().top < H) {
+            if (el.classList.contains('ninety-card')) runCounter();
+            el.classList.add('in');
+          }
+        });
+        if (stage && !stage.classList.contains('built') && stage.getBoundingClientRect().top < H * 0.8) stage.classList.add('built');
+      };
+      window.addEventListener('scroll', function () { if (!pending) { pending = true; setTimeout(sweep, 250); } }, { passive: true });
+      setTimeout(sweep, 1200);
     }
   }
 
