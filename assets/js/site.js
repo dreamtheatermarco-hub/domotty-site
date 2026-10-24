@@ -305,4 +305,12 @@
     if (e.target.closest('[data-close]') && e.target.closest('#nl-modal')) closeNl();
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nlModal && !nlModal.hidden) closeNl(); });
+  /* ---------- Maistu: il marchio si costruisce una volta quando entra in vista ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mx]'), function (el) {
+    if (reduce || !('IntersectionObserver' in window)) { el.classList.add('mx-go'); return; }
+    var mo = new IntersectionObserver(function (en) {
+      en.forEach(function (x) { if (x.isIntersecting) { el.classList.add('mx-go'); mo.disconnect(); } });
+    }, { threshold: 0.35 });
+    mo.observe(el);
+  });
 })();
