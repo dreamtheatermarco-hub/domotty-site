@@ -313,4 +313,33 @@
     }, { threshold: 0.35 });
     mo.observe(el);
   });
+  /* ---------- Maistu: notifica che entra da destra dopo l'intro ---------- */
+  (function () {
+    var n = document.getElementById('mxn');
+    if (!n) return;
+    var KEY = 'domotty-maistu-nota';
+    var last = parseInt(store.get(KEY) || '0', 10);
+    if (last && Date.now() - last < 14 * 864e5) return;
+    function show() {
+      n.hidden = false;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { n.classList.add('in', 'mx-go'); }); });
+    }
+    function hide(remember) {
+      if (remember) store.set(KEY, String(Date.now()));
+      n.classList.remove('in'); n.classList.add('out');
+      setTimeout(function () { n.hidden = true; n.classList.remove('out'); }, 520);
+    }
+    setTimeout(show, reduce ? 800 : lite ? 2600 : 6400);
+    Array.prototype.forEach.call(n.querySelectorAll('[data-mxn-close]'), function (b) { b.addEventListener('click', function () { hide(true); }); });
+    var seen = n.querySelector('[data-mxn-seen]');
+    if (seen) seen.addEventListener('click', function () { hide(true); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !n.hidden && n.classList.contains('in')) hide(true); });
+    /* su telefono la notifica sta sopra il contenuto: si fa da parte quando si arriva alla sezione Maistu */
+    var panel = document.getElementById('maistu');
+    if (panel && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) {
+        en.forEach(function (x) { if (x.isIntersecting && n.classList.contains('in')) hide(false); });
+      }, { threshold: 0.2 }).observe(panel);
+    }
+  })();
 })();
