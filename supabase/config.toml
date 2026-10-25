@@ -7,3 +7,6 @@ verify_jwt = false
 
 [functions.newsletter]
 verify_jwt = false
+
+[functions.jana]
+verify_jwt = false
