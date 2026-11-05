@@ -75,7 +75,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 // Conferma di ricezione · Domotty (invariata)
 function ackDomotty(nome: string, tipo: string, site: string) {
   const first = nome.split(/\s+/)[0] || "";
-  const text = `Ciao ${first},\n\ngrazie per averci scritto. Abbiamo ricevuto la tua richiesta «${tipo}» e ti risponderemo al più presto.\n\nSe vuoi aggiungere qualcosa, rispondi pure a questa email.\n\nIl team Domotty\n\nDomotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA)\nInformativa privacy: ${site}/privacy.html`;
+  const text = `Ciao ${first},\n\ngrazie per averci scritto. Abbiamo ricevuto la tua richiesta «${tipo}» e ti risponderemo al più presto.\n\nSe vuoi aggiungere qualcosa, rispondi pure a questa email.\n\nIl team Domotty\n\nDomotty S.r.l. · Via Monsignor Cherchi 26, 09026 San Sperate (CA)\nInformativa privacy: ${site}/privacy.html`;
   const html = `<div style="background:#0B1A33;padding:36px 16px;font-family:Arial,sans-serif">
   <div style="max-width:520px;margin:0 auto;background:#10223F;border-radius:20px;padding:32px;color:#C3CEE0">
     <p style="font-size:13px;letter-spacing:4px;color:#F7842A;font-weight:bold;margin:0 0 18px">DOMOTTY</p>
@@ -85,7 +85,7 @@ function ackDomotty(nome: string, tipo: string, site: string) {
     <p style="font-size:14px;line-height:1.6;margin:0;color:#93A3BE">Se vuoi aggiungere qualcosa, rispondi pure a questa email.</p>
     <p style="font-size:15px;margin:22px 0 0;color:#F5F7FB">Il team Domotty</p>
   </div>
-  <p style="max-width:520px;margin:16px auto 0;font-size:12px;color:#93A3BE;text-align:center">Domotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA) · <a href="${site}/privacy.html" style="color:#F7842A">Informativa privacy</a></p>
+  <p style="max-width:520px;margin:16px auto 0;font-size:12px;color:#93A3BE;text-align:center">Domotty S.r.l. · Via Monsignor Cherchi 26, 09026 San Sperate (CA) · <a href="${site}/privacy.html" style="color:#F7842A">Informativa privacy</a></p>
 </div>`;
   return { text, html, subject: "Abbiamo ricevuto la tua richiesta · Domotty" };
 }
@@ -94,7 +94,7 @@ function ackDomotty(nome: string, tipo: string, site: string) {
 function ackMaistu(nome: string, tipo: string, site: string) {
   const first = nome.split(/\s+/)[0] || "";
   const prova = /prova/i.test(tipo);
-  const text = `Ciao ${first},\n\ngrazie per averci scritto. Abbiamo ricevuto la tua richiesta «${tipo}» e ti risponderemo al più presto.${prova ? "\n\nNella prossima email ti diremo cosa ci serve per preparare il tuo Maistu di prova." : ""}\n\nSe vuoi aggiungere qualcosa, rispondi pure a questa email.\n\nIl team Maistu · Domotty\n\nMaistu è il gestionale su misura di Domotty.\nDomotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA)\nInformativa privacy: ${site}/privacy.html`;
+  const text = `Ciao ${first},\n\ngrazie per averci scritto. Abbiamo ricevuto la tua richiesta «${tipo}» e ti risponderemo al più presto.${prova ? "\n\nNella prossima email ti diremo cosa ci serve per preparare il tuo Maistu di prova." : ""}\n\nSe vuoi aggiungere qualcosa, rispondi pure a questa email.\n\nIl team Maistu · Domotty\n\nMaistu è il gestionale su misura di Domotty.\nDomotty S.r.l. · Via Monsignor Cherchi 26, 09026 San Sperate (CA)\nInformativa privacy: ${site}/privacy.html`;
   const p = (t: string) => `<p style="margin:0 0 14px;color:#C3CEE0;font-size:16px;line-height:1.6;">${t}</p>`;
   const html = maistuLayout(site, "Richiesta ricevuta!", [
     p(`Ciao ${esc(first)}, grazie per averci scritto. Abbiamo ricevuto la tua richiesta e ti risponderemo al più presto.`),
@@ -117,7 +117,7 @@ function maistuLayout(site: string, titolo: string, corpo: string) {
 <h1 style="margin:0 0 16px;color:#F5F7FB;font-size:26px;line-height:1.25;font-weight:700;">${esc(titolo)}</h1>
 ${corpo}
 </td></tr></table></td></tr>
-<tr><td style="padding:18px 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#93A3BE;"><span style="color:#C3CEE0;">Maistu</span> è il gestionale su misura di Domotty.<br>Domotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA)<br><a href="${site}" style="color:#F7842A;text-decoration:none;">maistu.it</a> · <a href="${site}/privacy.html" style="color:#F7842A;">Informativa privacy</a></td></tr>
+<tr><td style="padding:18px 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#93A3BE;"><span style="color:#C3CEE0;">Maistu</span> è il gestionale su misura di Domotty.<br>Domotty S.r.l. · Via Monsignor Cherchi 26, 09026 San Sperate (CA)<br><a href="${site}" style="color:#F7842A;text-decoration:none;">maistu.it</a> · <a href="${site}/privacy.html" style="color:#F7842A;">Informativa privacy</a></td></tr>
 </table></td></tr></table></body></html>`;
 }
 
