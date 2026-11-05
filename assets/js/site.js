@@ -265,6 +265,37 @@
     }).then(function () { btn.disabled = false; label.textContent = 'Invia richiesta'; });
   });
 
+  /* ---------- installatori partner (5/11/2026) ----------
+     Arriva ad assistenza@domotty.it come le altre richieste del sito: oggetto «[Sito] Richiesta collaborazione installatori · Nome»,
+     così il gestionale la riconosce e la mette nella sua categoria. I dati in più vanno nel testo del messaggio. */
+  var instForm = document.getElementById('inst-form');
+  if (instForm) {
+    var instErr = document.getElementById('inst-err'), instOk = document.getElementById('inst-ok');
+    instForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var d = new FormData(instForm), v = function (k) { return String(d.get(k) || '').trim(); };
+      instErr.textContent = '';
+      var manca = [['azienda', 'la ragione sociale'], ['piva', 'la partita IVA'], ['nome', 'il tuo nome e cognome'], ['telefono', 'il telefono'], ['province', 'le province in cui lavori']]
+        .filter(function (x) { return !v(x[0]); })[0];
+      if (manca) { instErr.textContent = 'Scrivi ' + manca[1] + '.'; instForm[manca[0]].focus(); return; }
+      if (!emailRe.test(v('email'))) { instErr.textContent = 'Controlla l\u2019indirizzo email.'; instForm.email.focus(); return; }
+      if (!instForm.privacy.checked) { instErr.textContent = 'Per inviare la candidatura conferma di aver letto l\u2019informativa privacy.'; return; }
+      var lavori = d.getAll('lavori').join(', ') || '—';
+      var testo = 'Partita IVA: ' + v('piva') + '\nProvince: ' + v('province') + '\nCosa installa: ' + lavori +
+        '\nPersone in squadra: ' + v('squadra') + '\nAbilitazione DM 37/08: ' + v('abilitazione') + (v('messaggio') ? '\n\n' + v('messaggio') : '');
+      var btn = instForm.querySelector('button[type="submit"]'), label = btn.querySelector('.js-inst');
+      btn.disabled = true; label.textContent = 'Invio in corso';
+      post('contact', {
+        tipo: 'Richiesta collaborazione installatori', nome: v('nome'), email: v('email'), azienda: v('azienda'),
+        telefono: v('telefono'), messaggio: testo, privacy: true, website: v('website')
+      }).then(function () {
+        instForm.reset(); instOk.hidden = false; btn.hidden = true;
+      }).catch(function () {
+        instErr.textContent = 'Non siamo riusciti a inviare la candidatura. Riprova tra poco oppure scrivi a assistenza@domotty.it.';
+      }).then(function () { btn.disabled = false; label.textContent = 'Invia la candidatura'; });
+    });
+  }
+
   /* ---------- newsletter ---------- */
   Array.prototype.forEach.call(document.querySelectorAll('form.js-nl'), function (nl) {
     var nlMsg = document.getElementById(nl.getAttribute('data-msg'));
