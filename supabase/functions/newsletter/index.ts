@@ -26,7 +26,7 @@ const json = (body: unknown, status: number, h: Record<string, string>) =>
 const token = () => crypto.randomUUID().replaceAll("-", "") + crypto.randomUUID().replaceAll("-", "").slice(0, 8);
 
 function confirmEmail(link: string) {
-  const text = `Ciao!\n\nGrazie per esserti iscritto alla newsletter Domotty.\nPer confermare l'iscrizione apri questo link:\n${link}\n\nSe non sei stato tu, ignora questa email: senza conferma non riceverai nulla.\n\nDomotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA)\nInformativa privacy: ${SITE}/privacy.html`;
+  const text = `Ciao!\n\nGrazie per esserti iscritto alla newsletter Domotty.\nPer confermare l'iscrizione apri questo link:\n${link}\n\nSe non sei stato tu, ignora questa email: senza conferma non riceverai nulla.\n\nDomotty S.r.l. · Via Monsignor Cherchi 26, 09026 San Sperate (CA)\nInformativa privacy: ${SITE}/privacy.html`;
   const html = `<div style="background:#0B1A33;padding:36px 16px;font-family:Arial,sans-serif">
   <div style="max-width:520px;margin:0 auto;background:#10223F;border-radius:20px;padding:32px;color:#C3CEE0">
     <p style="font-size:13px;letter-spacing:4px;color:#F7842A;font-weight:bold;margin:0 0 18px">DOMOTTY</p>
@@ -35,7 +35,7 @@ function confirmEmail(link: string) {
     <a href="${link}" style="display:inline-block;background:#F7842A;color:#0B1A33;text-decoration:none;font-weight:bold;padding:14px 26px;border-radius:999px">Conferma l'iscrizione</a>
     <p style="font-size:13px;line-height:1.6;margin:24px 0 0;color:#93A3BE">Se non sei stato tu, ignora questa email: senza conferma non riceverai nulla.</p>
   </div>
-  <p style="max-width:520px;margin:16px auto 0;font-size:12px;color:#93A3BE;text-align:center">Domotty S.r.l. · Via Monsignor Cherchi 26, 09027 San Sperate (CA) · <a href="${SITE}/privacy.html" style="color:#F7842A">Informativa privacy</a></p>
+  <p style="max-width:520px;margin:16px auto 0;font-size:12px;color:#93A3BE;text-align:center">Domotty S.r.l. · Via Monsignor Cherchi 26, 09026 San Sperate (CA) · <a href="${SITE}/privacy.html" style="color:#F7842A">Informativa privacy</a></p>
 </div>`;
   return { text, html };
 }
