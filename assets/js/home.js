@@ -58,6 +58,7 @@ function svgCasa(rooms,interattiva){
   var notte=AMB==='sera', G={W:0,D:0}, s='', lights='', devs='';
   var Rs=rooms.map(function(r){ return {r:r,x:r.g.x,y:r.g.y,w:r.g.w,d:r.g.d}; });
   Rs.forEach(function(R){ G.W=Math.max(G.W,R.x+R.w); G.D=Math.max(G.D,R.y+R.d); });
+  var labs=[];
   var GD=3;
   s+=poly([[-.6,-.6,-.02],[G.W+.6,-.6,-.02],[G.W+.6,G.D+GD,-.02],[-.6,G.D+GD,-.02]],notte?'#1D3B2A':'#5E9B5B');
   s+=poly([[G.W*.45,G.D,-.01],[G.W*.45+1.4,G.D,-.01],[G.W*.45+1.4,G.D+GD,-.01],[G.W*.45,G.D+GD,-.01]],notte?'#454A52':'#B7B1A6');
@@ -76,7 +77,7 @@ function svgCasa(rooms,interattiva){
     var nl=ids(r,'l'); nl.forEach(function(id,i){ var lx=x+w*((i+1)/(nl.length+1)), ly=y+d*.5, o=!!L.luci[id];
       if(o) lights+='<polygon points="'+pts(ell(lx,ly,Math.min(w,d)*.62))+'" fill="url(#glow)" style="mix-blend-mode:screen" pointer-events="none"/>';
       var t1=P(lx,ly,2.45), b1=P(lx,ly,1.95); devs+='<g class="hit" data-act="luce" data-id="'+id+'"><title>'+esc(r.nome)+' · luce</title><line x1="'+t1[0].toFixed(2)+'" y1="'+t1[1].toFixed(2)+'" x2="'+b1[0].toFixed(2)+'" y2="'+b1[1].toFixed(2)+'" stroke="#8094B3" stroke-width=".03"/><circle cx="'+b1[0].toFixed(2)+'" cy="'+(b1[1]+.08).toFixed(2)+'" r="'+(o?.26:.18)+'" fill="'+(o?'#FFE2A1':'#9AA6B6')+'"/><circle cx="'+b1[0].toFixed(2)+'" cy="'+(b1[1]+.08).toFixed(2)+'" r=".5" fill="transparent"/></g>'; });
-    var lab=P(x+.3,y+d*.5,0); s+='<text transform="matrix(.866,.5,-.866,.5,'+lab[0].toFixed(2)+','+lab[1].toFixed(2)+')" font-family="Poppins,sans-serif" font-size=".34" font-weight="600" fill="'+(notte?'rgba(255,255,255,.75)':'rgba(15,31,61,.72)')+'">'+esc(r.nome)+'</text>';
+    labs.push({n:r.nome,a:P(x+w*.32,y+d*.68,0),t:P(x+w*.32,y+d*.68,3.1)});
   });
   s+=lights+devs;
   Rs.forEach(function(R){ var wc=notte?'#3B5378':'#E9EDF2'; if(est(R,'s',Rs)) s+=box(R.x,R.y+R.d-.12,R.w,.12,.32,wc); if(est(R,'e',Rs)) s+=box(R.x+R.w-.12,R.y,.12,R.d,.32,wc); (R.front||[]).forEach(function(f){ s+=fin(f[0],f[1],R,f[2],f[3],notte); }); });
@@ -84,7 +85,17 @@ function svgCasa(rooms,interattiva){
     if(C.cancello){ var off=L.canc*cw*.95, g='<g class="hit" data-act="canc"><title>Cancello</title>'; for(var b=0;b<=10;b++) g+=box(cx0+off+b*cw/10,cy-.04,.05,.08,1.25,'#2E3440'); s+=g+box(cx0+off,cy-.05,cw,.1,.08,'#2E3440',1.15)+'</g>'; }
     if(C.citofono) s+=box(cx0-.45,cy+.1,.3,.12,1.3,'#3A4250'); }
   if(C.allarme){ var a=P(G.W-.1,G.D-.1,2.3); s+='<circle cx="'+a[0].toFixed(2)+'" cy="'+a[1].toFixed(2)+'" r=".18" fill="'+(L.all?'#FF5A5F':'#F4F6F8')+'"/>'; }
+  /* etichette stanze: puntino sul pavimento, linea, targhetta sopra la casa; spostate se si sovrappongono */
+  var lb=[], fs=.48, lh=.74; labs.sort(function(a,b){ return a.t[1]-b.t[1]; }).forEach(function(L0){
+    var w=L0.n.length*fs*.6+.5, cx=L0.t[0], cy=L0.t[1], k=0;
+    while(k<20&&lb.some(function(B){ return Math.abs(B.cx-cx)<(B.w+w)/2+.1&&Math.abs(B.cy-cy)<lh+.08; })){ cy-=.3; k++; }
+    lb.push({cx:cx,cy:cy,w:w,n:L0.n,a:L0.a}); });
+  lb.forEach(function(B){ s+='<g pointer-events="none"><line x1="'+B.a[0].toFixed(2)+'" y1="'+B.a[1].toFixed(2)+'" x2="'+B.cx.toFixed(2)+'" y2="'+(B.cy+lh/2).toFixed(2)+'" stroke="'+(notte?'rgba(255,255,255,.55)':'rgba(15,31,61,.45)')+'" stroke-width=".035" stroke-dasharray=".1 .08"/>'+
+    '<circle cx="'+B.a[0].toFixed(2)+'" cy="'+B.a[1].toFixed(2)+'" r=".12" fill="#F7842A" stroke="#fff" stroke-width=".04"/>'+
+    '<rect x="'+(B.cx-B.w/2).toFixed(2)+'" y="'+(B.cy-lh/2).toFixed(2)+'" width="'+B.w.toFixed(2)+'" height="'+lh+'" rx="'+(lh/2)+'" fill="'+(notte?'rgba(10,20,40,.88)':'rgba(255,255,255,.95)')+'" stroke="#F7842A" stroke-width=".035"/>'+
+    '<text x="'+B.cx.toFixed(2)+'" y="'+(B.cy+fs*.36).toFixed(2)+'" text-anchor="middle" font-family="Poppins,sans-serif" font-size="'+fs+'" font-weight="600" fill="'+(notte?'#fff':'#0F1F3D')+'">'+esc(B.n)+'</text></g>'; });
   var cs=[P(-.6,-.6,2.9),P(G.W+.6,-.6,0),P(-.6,G.D+GD,0),P(G.W+.6,G.D+GD,0),P(G.W+.6,-.6,2.9)], xs=cs.map(function(p){ return p[0]; }), ys=cs.map(function(p){ return p[1]; });
+  lb.forEach(function(B){ ys.push(B.cy-lh/2-.1); xs.push(B.cx-B.w/2,B.cx+B.w/2); });
   var vx=Math.min.apply(null,xs)-.4, vy=Math.min.apply(null,ys)-.4, vw=Math.max.apply(null,xs)-vx+.4, vh=Math.max.apply(null,ys)-vy+.6;
   return '<svg viewBox="'+vx.toFixed(2)+' '+vy.toFixed(2)+' '+vw.toFixed(2)+' '+vh.toFixed(2)+'" role="img" aria-label="Casa isometrica"><defs><radialGradient id="glow"><stop offset="0" stop-color="#FFD58A" stop-opacity=".95"/><stop offset=".45" stop-color="#FFB347" stop-opacity=".45"/><stop offset="1" stop-color="#FF9A2A" stop-opacity="0"/></radialGradient></defs>'+s+'</svg>';
 }
