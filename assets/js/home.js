@@ -141,7 +141,7 @@ function anima(ts){ var dt=last?Math.min(100,ts-last)/1000:0; last=ts;
   if(moving()) raf=requestAnimationFrame(anima); else { raf=null; last=0; renderTab(); } }
 function avvia(){ if(!raf){ last=0; raf=requestAnimationFrame(anima); } }
 function all(k){ var a=[]; ROOMS.forEach(function(r){ a=a.concat(ids(r,k)); }); return a; }
-var toastT; function toast(t){ var e=$('toast'); e.textContent=t; e.hidden=false; clearTimeout(toastT); toastT=setTimeout(function(){ e.hidden=true; },2600); }
+var toastT; function toast(t){ var e=$('toast'), st=document.querySelector('#prova .stage'); if(!e) return; if(st&&e.parentNode!==st) st.appendChild(e); var rr=st&&st.getBoundingClientRect(); if(!rr||rr.bottom<80||rr.top>innerHeight-60) return; e.textContent=t; e.hidden=false; clearTimeout(toastT); toastT=setTimeout(function(){ e.hidden=true; },2600); }
 function scenario(n){
   if(n==='giorno'){ AMB='giorno'; all('t').forEach(function(i){ tp(i).target=100; }); all('l').forEach(function(i){ L.luci[i]=false; }); toast('Buongiorno: tapparelle su, luci spente'); }
   if(n==='sera'){ AMB='sera'; all('t').forEach(function(i){ tp(i).target=0; }); ROOMS.forEach(function(r){ if(r.tipo==='soggiorno'||r.tipo==='cucina') ids(r,'l').forEach(function(i){ L.luci[i]=true; }); }); toast('Sera: tapparelle giù, luci della zona giorno accese'); }
@@ -193,7 +193,14 @@ function drawHero(){ var saved=AMB; AMB=HAMB; var c={cancello:C.cancello,citofon
 /* avvio */
 build(); scenario('sera'); $('toast').hidden=true; renderCfg(); renderHouse(); renderTab();
 HS[0][1](); HERO.forEach(function(r){ ids(r,'t').forEach(function(i){ tp(i).pos=0; }); }); drawHero(); heroI=1;
-if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(heroStep,5000);
+/* niente avvio automatico: la casa in apertura cambia scenario quando la tocchi */
+var HINT='Tocca la casa per cambiare scenario', hintT=0; $('heroTag').textContent=HINT;
+$('heroArt').setAttribute('role','button'); $('heroArt').setAttribute('tabindex','0');
+function heroTap(){ heroStep(); clearTimeout(hintT); hintT=setTimeout(function(){ $('heroTag').textContent=HINT; },4500); }
+$('heroArt').addEventListener('click',heroTap); $('heroArt').addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); heroTap(); } });
+/* mentre si prova la casa: via linguette e "Prova Jana", e i messaggi compaiono solo qui */
+(function(){ var pr=$('prova'); if(!pr||!('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function(es){ es.forEach(function(e){ document.body.classList.toggle('in-prova',e.isIntersecting); if(!e.isIntersecting){ $('toast').hidden=true; if(demoT) demo(false); } }); },{rootMargin:'-30% 0px -30% 0px'}).observe(pr); })();
 setInterval(renderTab,30000);
 
 /* avviso cookie come sul sito attuale (solo cookie tecnici) */
