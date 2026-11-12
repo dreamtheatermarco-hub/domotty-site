@@ -353,3 +353,36 @@ body.no-scroll{overflow:hidden}
 .nl-msg:empty{display:none}
 .nl-msg{font-size:14px;color:var(--t1);margin:0}
 .nl-msg.err{color:#FF8A7A}
+/* cellulare: la prova "tablet" resta dentro lo schermo */
+@media (max-width:760px){.cfg.tablet{grid-template-columns:minmax(0,1fr)}.cfg>*,.device,.frame,.screen{min-width:0;max-width:100%}.tablet .frame{padding:10px;border-radius:24px}.tablet .tl{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}}
+html,body{overflow-x:clip}
+.steps3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:640px){.steps3{grid-template-columns:minmax(0,1fr)}}
+footer .wrap>*{min-width:0}footer p,footer a{overflow-wrap:anywhere}
+.cards6>*,.modi>*,.mai>*,.grid3>*,.grid6>*{min-width:0}
+@media (max-width:400px){.ac{padding:18px}.ac h3,.ac p{overflow-wrap:anywhere;hyphens:auto}}
+.tablet .tl button{flex-direction:column;justify-content:flex-start;gap:2px}
+.tl button span{min-width:0;overflow-wrap:anywhere}
+/* menu per cellulare */
+.burger{display:none}
+@media (max-width:900px){
+.nav .wrap{gap:10px}
+.burger{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;flex:none;border:1px solid var(--b1);border-radius:12px;background:var(--s1);padding:0;cursor:pointer}
+.burger span{display:block;width:18px;height:2px;border-radius:2px;background:var(--t1);transition:transform .25s,opacity .2s}
+.burger.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}.burger.is-open span:nth-child(2){opacity:0}.burger.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mnav{position:absolute;left:0;right:0;top:100%;background:#0B1A33;border-bottom:1px solid var(--b1);box-shadow:0 24px 40px -10px rgba(0,0,0,.6);max-height:calc(100vh - 68px);overflow:auto}
+.mnav-in{width:min(1180px,100% - 32px);margin:0 auto;padding:6px 0 14px;display:flex;flex-direction:column}
+.mnav a{display:flex;justify-content:space-between;align-items:center;min-height:54px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.07);color:var(--t1);text-decoration:none;font-size:17px;font-weight:500}
+.mnav a span{color:var(--or);font-size:22px}
+.mnav a[aria-current]{color:var(--or)}
+}
+@media (max-width:380px){.nav .btn{padding:8px 12px;font-size:13px}.logo{font-size:15px}}
+/* linguette e "Prova Jana" nascoste mentre si prova la casa o con il menu aperto */
+body.in-prova .tabs,body.in-prova .jfab,body.mnav-open .tabs,body.mnav-open .jfab{opacity:0 !important;pointer-events:none !important;transform:translateY(20px) scale(.9) !important}
+.tabs,.jfab{transition:opacity .3s,transform .3s}
+/* messaggi della casa: dentro la casa, non in fondo alla pagina */
+.stage{position:relative}
+.stage .toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);max-width:calc(100% - 28px);width:max-content;text-align:center;z-index:5;font-size:13.5px;animation:tIn .25s ease}
+@keyframes tIn{from{opacity:0;transform:translate(-50%,8px)}}
+/* casa in apertura: si tocca per cambiare scenario */
+.hero-art{cursor:pointer;-webkit-tap-highlight-color:transparent}
