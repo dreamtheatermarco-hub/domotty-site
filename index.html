@@ -20,8 +20,12 @@
 <link rel="stylesheet" href="assets/css/fonts.css?v=20261112a">
 <link rel="stylesheet" href="assets/css/home.css?v=20261112d">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Domotty S.r.l.","url":"https://domotty.it/","logo":"https://domotty.it/assets/img/apple-touch-icon.png","email":"assistenza@domotty.it","vatID":"IT04208000929","telephone":"+390706270231","sameAs":["https://www.instagram.com/domotty_italia","https://www.facebook.com/profile.php?id=61586414318326"],"description":"Domotica su misura per case e uffici, software in cloud, gestionali e intelligenza artificiale per le aziende.","address":{"@type":"PostalAddress","streetAddress":"Via Monsignor Cherchi 26","postalCode":"09026","addressLocality":"San Sperate","addressRegion":"CA","addressCountry":"IT"}}</script>
+<style id="dmtBootCss">#dmtBoot{position:fixed;inset:0;z-index:9999;background:#0E1A3F;display:flex;align-items:center;justify-content:center;transition:opacity .45s ease,visibility .45s}#dmtBoot img{width:min(300px,70vw);height:auto;aspect-ratio:1}#dmtBoot.out{opacity:0;visibility:hidden}html.nosplash #dmtBoot{display:none}</style>
+<script>try{if(sessionStorage.getItem('dmtBoot')||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('nosplash')}catch(e){}</script>
 </head>
 <body class="dm">
+<div id="dmtBoot" aria-hidden="true"><img alt="" src="assets/boot/domotty-boot-intro.webp" width="320" height="320"></div>
+<script>(function(){var d=document.documentElement,b=document.getElementById('dmtBoot');if(!b)return;if(d.classList.contains('nosplash')){b.remove();return}try{sessionStorage.setItem('dmtBoot','1')}catch(e){}var im=b.querySelector('img'),intro=false,load=false,t0=Date.now(),done=false;function end(){if(done)return;done=true;b.classList.add('out');setTimeout(function(){b.remove()},500)}function chk(){if(intro&&load)end()}var lp=new Image();lp.src='assets/boot/domotty-boot-loop.webp';function go(){setTimeout(function(){intro=true;if(!load)im.src=lp.src;chk()},2440)}if(im.complete)go();else{im.onload=go;im.onerror=end}if(document.readyState==='complete')load=true;else addEventListener('load',function(){load=true;chk()});setTimeout(end,7000);b.addEventListener('click',end)})();</script>
 <div class="bgfx" aria-hidden="true">
   <svg class="plan" viewBox="0 0 1200 800">
     <g stroke="#F7842A">
