@@ -18,7 +18,7 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/poppins-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/fonts.css?v=20261112a">
-<link rel="stylesheet" href="assets/css/home.css?v=20261112d">
+<link rel="stylesheet" href="assets/css/home.css?v=20261114a">
 <style>
 .ahero{padding:72px 0 40px}
 .cards6{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -42,7 +42,7 @@
 </head>
 <body class="dm">
 <div id="dmtBoot" aria-hidden="true"><img alt="" src="assets/boot/domotty-boot-intro.webp" width="320" height="320"></div>
-<script>(function(){var d=document.documentElement,b=document.getElementById('dmtBoot');if(!b)return;if(d.classList.contains('nosplash')){b.remove();return}try{sessionStorage.setItem('dmtBoot','1')}catch(e){}var im=b.querySelector('img'),intro=false,load=false,t0=Date.now(),done=false;function end(){if(done)return;done=true;b.classList.add('out');setTimeout(function(){b.remove()},500)}function chk(){if(intro&&load)end()}var lp=new Image();lp.src='assets/boot/domotty-boot-loop.webp';function go(){setTimeout(function(){intro=true;if(!load)im.src=lp.src;chk()},2440)}if(im.complete)go();else{im.onload=go;im.onerror=end}if(document.readyState==='complete')load=true;else addEventListener('load',function(){load=true;chk()});setTimeout(end,7000);b.addEventListener('click',end)})();</script>
+<script>(function(){var d=document.documentElement,b=document.getElementById('dmtBoot');if(!b)return;if(d.classList.contains('nosplash')){b.remove();return}try{sessionStorage.setItem('dmtBoot','1')}catch(e){}var im=b.querySelector('img'),intro=false,load=false,t0=Date.now(),done=false;function end(){if(done)return;done=true;var lg=document.querySelector('.lanim');if(lg){lg.classList.add('draw');setTimeout(function(){lg.classList.remove('draw')},2600)}b.classList.add('out');setTimeout(function(){b.remove()},500)}function chk(){if(intro&&load)end()}var lp=new Image();lp.src='assets/boot/domotty-boot-loop.webp';function go(){setTimeout(function(){intro=true;if(!load)im.src=lp.src;chk()},2440)}if(im.complete)go();else{im.onload=go;im.onerror=end}if(document.readyState==='complete')load=true;else addEventListener('load',function(){load=true;chk()});setTimeout(end,7000);b.addEventListener('click',end)})();</script>
 <div class="bgfx" aria-hidden="true">
   <svg class="plan" viewBox="0 0 1200 800">
     <g stroke="#F7842A">
@@ -74,7 +74,7 @@
 
 <div class="strip">Cerchiamo installatori in tutta Italia. <a href="installatori.html">Candidati</a></div>
 <nav class="nav" aria-label="Menu principale"><div class="wrap">
-  <a class="logo" href="index.html#top" aria-label="Domotty, torna su"><svg viewBox="190 85 260 260" aria-hidden="true"><path d="M320 319 H234 Q216 319 216 301 V219 L320 115 L424 219 V301 Q424 319 406 319 Z" fill="none" stroke="#F7842A" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/><path d="M282 188 H318 A52 52 0 0 1 318 292 H282 Q276 292 276 286 V194 Q276 188 282 188 Z M296 208 H318 A32 32 0 0 1 318 272 H296 Z" fill="#FFFFFF" fill-rule="evenodd"/></svg>DOMOTTY</a>
+  <a class="logo lanim" href="index.html#top" aria-label="Domotty, torna su"><svg viewBox="190 85 260 260" aria-hidden="true"><path class="lh" pathLength="1" d="M320 319 H234 Q216 319 216 301 V219 L320 115 L424 219 V301 Q424 319 406 319 Z" fill="none" stroke="#F7842A" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/><path class="ld" d="M282 188 H318 A52 52 0 0 1 318 292 H282 Q276 292 276 286 V194 Q276 188 282 188 Z M296 208 H318 A32 32 0 0 1 318 272 H296 Z" fill="#FFFFFF" fill-rule="evenodd"/><path class="lsw" pathLength="1" d="M320 319 H234 Q216 319 216 301 V219 L320 115 L424 219 V301 Q424 319 406 319 Z" fill="none" stroke="#FFE3C9" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/></svg>DOMOTTY</a>
   <div class="menu"><a href="index.html#domotica">Domotica</a><a href="index.html#prova">Prova la tua casa</a><a href="index.html#jana">Jana</a><a href="aziende.html" aria-current="page" style="color:var(--t1)">Aziende</a><a href="index.html#prezzo">Prezzi</a></div>
   <a class="btn pri" href="index.html#contatti">Contattaci</a>
 </div></nav>
